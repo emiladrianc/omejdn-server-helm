@@ -1,0 +1,17 @@
+---
+
+###########
+# Install #
+###########
+install:
+  omejdn: true
+
+
+########################
+# OMEJDN Configuration #
+########################
+omejdn-service:
+  client:
+    id: acc
+    name: acc
+  scope: idsc:IDS_CONNECTOR_ATTRIBUTES_ALL

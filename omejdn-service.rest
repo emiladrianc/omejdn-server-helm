@@ -1,0 +1,24 @@
+@hostname = localhost
+@port = 4567
+@host = {{hostname}}:{{port}}
+@token = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJhY2MiLCJzdWIiOiJhY2MiLCJleHAiOjE2NzYzODI5MDIsIm5iZiI6MTY3NjM3OTMwMiwiaWF0IjoxNjc2Mzc5MzAyLCJhdWQiOiJpZHNjOklEU19DT05ORUNUT1JTX0FMTCIsInNjb3BlIjpbIm9tZWpkbjpyZWFkIiwib21lamRuOndyaXRlIiwib21lamRuOmFkbWluIiwiZW1haWwiLCJwcm9maWxlIiwib3BlbmlkIl19.Y2L7FjRuL7WxL9_wycj2XtIrtJrqGaQoV8JRtH7cHw9Id-bB-2O1XsE4u1nLJyweaOf_9ZSZ2W3q0hhZB_Jx1U-IfhFqZ0puqHweN9bGYxXynAsvGYEKmJMAeIiD3wv500DNYBknwnm7n7uACInlPx01B_MrPckrWuTi5VDOrosFLu_zGIYXCugQOzSz25GuSHG3ObnbWLWYlr1i_UC8SvJsVAZF6XlmnDyo7MYO7_PFVCgU919U1ZloIvG4Ps2tRQioItmBJwq9Xn92aLGTe8znirKiMQ8lhxl4ESQfs5ArnYiuUNq25OH7r60jVqGu1KFv9P-pgfhMJxTeG34ZDg
+@grantType = client_credentials
+@client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
+@scope = openid profile omejdn:admin idsc:IDS_CONNECTOR_ATTRIBUTES_ALL
+
+### Get JWKS
+GET http://{{host}}/jwks.json HTTP/1.1
+Content-Type: application/json
+
+### Get OpenId Configuration
+GET http://{{host}}/.well-known/openid-configuration HTTP/1.1
+Content-Type: application/json
+
+### Get Token
+POST http://{{host}}/token HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+
+grant_type={{grantType}}
+&client_assertion_type={{client_assertion_type}}
+&client_assertion={{token}}
+&scope={{scope}}
