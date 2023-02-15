@@ -9,7 +9,7 @@ metadata:
 data:
   OMEJDN_ISSUER: {{ .Values.issuer }}
   OMEJDN_FRONT_URL: {{ .Values.issuer }}
-  OMEJDN_OPENID: "true"
+  OMEJDN_OPENID: "false"
   OMEJDN_ENVIRONMENT: development
   OMEJDN_ACCEPT_AUDIENCE: {{ .Values.audience.accept }}
   OMEJDN_DEFAULT_AUDIENCE: {{ .Values.audience.default }}
@@ -17,28 +17,31 @@ data:
   scope_mapping.yml: |-
     ---
     idsc:IDS_CONNECTOR_ATTRIBUTES_ALL:
+    - "@type"
+    - "@context"
     - securityProfile
+    - referringConnector
   
   clients.yml: |-
     ---
     - client_id: {{ .Values.client.id }}
       client_name: {{ .Values.client.name }}
-      grant_types: client_credentials
+      grant_types: 
+      - client_credentials
       token_endpoint_auth_method: private_key_jwt
-      scope: {{ .Values.scope }}
+      scope: 
+      - {{ .Values.scope }}
       attributes:
       - key: idsc
         value: IDS_CONNECTOR_ATTRIBUTES_ALL
-      - key: securityProfile
-        value: idsc:BASE_SECURITY_PROFILE
-      - key: referringConnector
-        value: http://{{ .Values.client.name }}.demo
       - key: "@type"
         value: ids:DatPayload
       - key: "@context"
         value: https://w3id.org/idsa/contexts/context.jsonld
-      - key: transportCertsSha256
-        value: ec1b40fba4fdcd4430ef670c27c38dd06f782df5fbe9d65be7e0762b02d120e3
+      - key: securityProfile
+        value: idsc:BASE_SECURITY_PROFILE
+      - key: referringConnector
+        value: http://{{ .Values.client.name }}.demo
 
   omejdn.yml:  |-
     ---
@@ -55,6 +58,12 @@ data:
     ---
     plugins:
       admin_api:
+      user_selfservice:
+        allow_deletion: false
+        allow_password_change: true
+        editable_attributes: []
+      token_user_attributes:
+        skip_id_token: true
 
   omejdn.key: |-
     -----BEGIN RSA PRIVATE KEY-----
