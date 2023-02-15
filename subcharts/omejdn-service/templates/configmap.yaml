@@ -7,12 +7,12 @@ metadata:
   labels:
     {{- include "irs-omejdn-service.labels" . | nindent 4 }}
 data:
-  OMEJDN_ISSUER: http://localhost:4567
-  OMEJDN_FRONT_URL: http://localhost:4567
+  OMEJDN_ISSUER: {{ .Values.issuer }}
+  OMEJDN_FRONT_URL: {{ .Values.issuer }}
   OMEJDN_OPENID: "true"
   OMEJDN_ENVIRONMENT: development
-  OMEJDN_ACCEPT_AUDIENCE: idsc:IDS_CONNECTORS_ALL
-  OMEJDN_DEFAULT_AUDIENCE: idsc:IDS_CONNECTORS_ALL
+  OMEJDN_ACCEPT_AUDIENCE: {{ .Values.audience.accept }}
+  OMEJDN_DEFAULT_AUDIENCE: {{ .Values.audience.default }}
   OMEJDN_PLUGINS: /opt/config/plugins.yml
   scope_mapping.yml: |-
     ---
@@ -43,13 +43,7 @@ data:
   omejdn.yml:  |-
     ---
     user_backend_default: yaml
-    issuer: http://localhost:4567
-    front_url: http://localhost:4567
     bind_to: 0.0.0.0:4567
-    environment: development
-    openid: true
-    default_audience: idsc:IDS_CONNECTORS_ALL
-    accept_audience: idsc:IDS_CONNECTORS_ALL
     access_token:
       expiration: 86400
       algorithm: RS256

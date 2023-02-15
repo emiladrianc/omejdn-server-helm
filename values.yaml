@@ -15,3 +15,7 @@ omejdn-service:
     id: acc
     name: acc
   scope: idsc:IDS_CONNECTOR_ATTRIBUTES_ALL
+  issuer: http://localhost:4567
+  audience:
+    default: idsc:IDS_CONNECTORS_ALL
+    accept: http://localhost:4567
